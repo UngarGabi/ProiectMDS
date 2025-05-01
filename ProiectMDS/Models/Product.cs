@@ -51,7 +51,6 @@ namespace ProiectMDS.Models
         //scorul
         //public int? Score { get; set; }
 
-        public virtual ICollection<ProductBookmark>? ProductBookmarks { get; set; }
         //public virtual ICollection<ShoppingCartItem>? ProductBaskets { get; set; }
     }
 }

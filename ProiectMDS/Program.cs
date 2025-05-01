@@ -1,7 +1,18 @@
+using Microsoft.EntityFrameworkCore;
+using ProiectMDS.Data;
+using Microsoft.AspNetCore.Identity;
+using ProiectMDS.Models;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddMemoryCache();
+builder.Services.AddSession();
+
+// Add services to the container.
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(connectionString));
 
 var app = builder.Build();
 

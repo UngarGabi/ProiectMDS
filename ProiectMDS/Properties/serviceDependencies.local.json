@@ -1,0 +1,10 @@
+{
+  "dependencies": {
+    "mssql3": {
+      "secretStore": null,
+      "type": "mssql.local",
+      "connectionId": "ConnectionStrings:Mdsdatabase1",
+      "dynamicId": null
+    }
+  }
+}

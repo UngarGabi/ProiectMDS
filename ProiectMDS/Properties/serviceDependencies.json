@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "mssql3": {
+      "type": "mssql",
+      "connectionId": "ConnectionStrings:Mdsdatabase1",
+      "dynamicId": null
+    }
+  }
+}

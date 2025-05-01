@@ -13,9 +13,6 @@ namespace ProiectMDS.Models
         //un user poate posta mai multe produse
         public virtual ICollection<Product>? Products { get; set; }
 
-        // un user poate crea mai multe bookmark-uri
-        public virtual ICollection<Bookmark>? Bookmarks { get; set; }
-
         // public virtual ICollection<ShoppingCart>? Baskets { get; set; }
 
         // atribute suplimentare adaugate pentru user
