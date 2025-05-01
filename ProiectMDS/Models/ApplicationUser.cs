@@ -1,9 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace ProiectMDS.Models
 {
-    public class ApplicationUser
+    public class ApplicationUser:IdentityUser
     {
         
     //PASUL 6: USERI SI ROLURI
