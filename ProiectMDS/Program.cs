@@ -22,7 +22,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddDefaultTokenProviders();
 
 
-
+builder.Services.AddRazorPages();
 
 // Adăugăm celelalte servicii
 builder.Services.AddControllersWithViews();
@@ -56,5 +56,13 @@ app.UseAuthorization();
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
+
+app.MapControllerRoute(
+    name: "test",
+    pattern: "test/{action=Index}/{id?}",
+    defaults: new { controller = "Test" });
+
+
+app.MapRazorPages();
 
 app.Run();

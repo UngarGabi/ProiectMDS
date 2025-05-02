@@ -8,7 +8,7 @@ using ProiectMDS.Models;
 
 namespace ProiectMDS.Controllers
 {
-    [Authorize(Roles = "Admin")]
+    //[Authorize(Roles = "Admin")]
 
     public class UserController : Controller
     {
