@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Identity;
 using ProiectMDS.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
+using ProiectMDS.Services;
+
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -21,8 +24,12 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 .AddEntityFrameworkStores<AppDbContext>()
 .AddDefaultTokenProviders();
 
+// Email configurare 
+builder.Services.AddTransient<ProiectMDS.Services.IEmailSender, EmailService>();
+builder.Services.AddTransient<Microsoft.AspNetCore.Identity.UI.Services.IEmailSender, EmailService>();
 
-builder.Services.AddRazorPages();
+
+builder.Services.AddRazorPages().AddRazorRuntimeCompilation();
 
 // Adăugăm celelalte servicii
 builder.Services.AddControllersWithViews();
