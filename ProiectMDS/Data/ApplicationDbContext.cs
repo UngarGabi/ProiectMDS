@@ -4,9 +4,10 @@ using ProiectMDS.Models;
 
 namespace ProiectMDS.Data
 {
-    public class AppDbContext : IdentityDbContext<ApplicationUser>
+    //PASUL 3: USERI SI ROLURI
+    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options)
+        public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
         }
@@ -22,6 +23,12 @@ namespace ProiectMDS.Data
 
             base.OnModelCreating(modelBuilder);
 
+            //pentru a putea sterge un produs care a fost achizitionat anteriror
+            modelBuilder.Entity<Purchase>()
+                .HasOne(p => p.Product)
+                .WithMany()
+                .HasForeignKey(p => p.ProductId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

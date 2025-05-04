@@ -3,7 +3,6 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using ProiectMDS.Data;
 
@@ -11,12 +10,10 @@ using ProiectMDS.Data;
 
 namespace ProiectMDS.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
-    [Migration("20250502154525_Prima")]
-    partial class Prima
+    [DbContext(typeof(ApplicationDbContext))]
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -105,12 +102,10 @@ namespace ProiectMDS.Migrations
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<string>", b =>
                 {
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderKey")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasColumnType("nvarchar(max)");
@@ -147,12 +142,10 @@ namespace ProiectMDS.Migrations
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("LoginProvider")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Name")
-                        .HasMaxLength(128)
-                        .HasColumnType("nvarchar(128)");
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<string>("Value")
                         .HasColumnType("nvarchar(max)");
@@ -271,17 +264,12 @@ namespace ProiectMDS.Migrations
                     b.Property<decimal?>("Rating")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<int?>("RequestId")
-                        .HasColumnType("int");
-
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
-
-                    b.HasIndex("RequestId");
 
                     b.HasIndex("UserId");
 
@@ -366,23 +354,26 @@ namespace ProiectMDS.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("CommentContent")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int?>("ProductId")
                         .HasColumnType("int");
 
-                    b.Property<decimal?>("Rating")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<string>("RequestType")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Title")
+                    b.Property<string>("RequestedByUserId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Status")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ProductId");
+
+                    b.HasIndex("RequestedByUserId");
 
                     b.ToTable("Requests");
                 });
@@ -444,10 +435,6 @@ namespace ProiectMDS.Migrations
                         .WithMany("Comments")
                         .HasForeignKey("ProductId");
 
-                    b.HasOne("ProiectMDS.Models.Request", null)
-                        .WithMany("ListOfComments")
-                        .HasForeignKey("RequestId");
-
                     b.HasOne("ProiectMDS.Models.ApplicationUser", "User")
                         .WithMany("Comments")
                         .HasForeignKey("UserId");
@@ -478,7 +465,8 @@ namespace ProiectMDS.Migrations
                 {
                     b.HasOne("ProiectMDS.Models.Product", "Product")
                         .WithMany()
-                        .HasForeignKey("ProductId");
+                        .HasForeignKey("ProductId")
+                        .OnDelete(DeleteBehavior.Cascade);
 
                     b.Navigation("Product");
                 });
@@ -489,7 +477,15 @@ namespace ProiectMDS.Migrations
                         .WithMany()
                         .HasForeignKey("ProductId");
 
+                    b.HasOne("ProiectMDS.Models.ApplicationUser", "RequestedByUser")
+                        .WithMany()
+                        .HasForeignKey("RequestedByUserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Product");
+
+                    b.Navigation("RequestedByUser");
                 });
 
             modelBuilder.Entity("ProiectMDS.Models.ApplicationUser", b =>
@@ -507,11 +503,6 @@ namespace ProiectMDS.Migrations
             modelBuilder.Entity("ProiectMDS.Models.Product", b =>
                 {
                     b.Navigation("Comments");
-                });
-
-            modelBuilder.Entity("ProiectMDS.Models.Request", b =>
-                {
-                    b.Navigation("ListOfComments");
                 });
 #pragma warning restore 612, 618
         }

@@ -1,0 +1,42 @@
+﻿
+<br />
+<h2 class="text-center">Afisare produse</h2>
+
+<br />
+
+@if (ViewBag.Message != null)
+{
+    <div class="alert-success p-3 rounded-3 text-center mb-5 @ViewBag.Alert">
+        @ViewBag.Message
+    </div>
+}
+
+<br />
+
+
+@model IEnumerable<ProiectMDS.Models.ProductCommentViewModel>
+
+@{
+    ViewBag.Title = "Produse și Comentarii";
+}
+
+
+
+<div class="container">
+    <div class="d-flex flex-wrap justify-content-center">
+        @foreach (var product in Model)
+        {
+            <div class="card m-2" style="width: 25rem;">
+                <div class="card-body">
+
+                    <partial name="ProductInfo" model="product"></partial>
+                    <div class="d-flex flex-wrap justify-content-center">
+                        <a class="btn btn-success" asp-controller="Products" asp-action="Show" asp-route-id="@product.ProductId">Afisare produs</a>
+                        <input type="hidden" value="@product.ProductId" />
+                        <a asp-controller="ShoppingCarts" asp-action="AddToCart" asp-route-id="@product.ProductId" class="btn btn-primary">Adauga in cos</a>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>

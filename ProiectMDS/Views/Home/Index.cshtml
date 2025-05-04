@@ -1,8 +1,41 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewBag.Title = "Bun venit la Magazinul online de frumusete!";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5">
+    <!-- Banner principal -->
+    <div class="jumbotron text-center bg-light p-5 rounded">
+        <h1 class="display-4">Bun venit la <span class="text-primary color-#a11b62">Glow Boutique</span>!</h1>
+        <p class="lead">Descopera universul nostru dedicat frumusetii si ingrijirii personale. Fiecare produs a fost ales cu grija pentru a te ajuta sa stralucesti in fiecare zi.</p>
+        <hr class="my-4">
+        <p>
+            Inspiram frumusetea naturala prin produse de calitate superioara, adaptate pentru tine.
+        </p>
+        <a class="btn btn-primary btn-lg" href="@Url.Action("Index", "Products")" role="button">Vezi Produsele</a>
+    </div>
+
+    <!-- Testimoniale -->
+    <h2 class="text-center my-5">Ce spun clientii nostri</h2>
+    <div class="row text-center">
+        <div class="col-md-4 mb-4">
+            <blockquote class="blockquote">
+                <p>"Produse incredibile! Pielea mea nu a aratat niciodata atat de bine!"</p>
+                <footer class="blockquote-footer">Ana, București</footer>
+            </blockquote>
+        </div>
+        <div class="col-md-4 mb-4">
+            <blockquote class="blockquote">
+                <p>"Recomand cu caldura! Comanda mea a ajuns rapid si totul a fost excelent."</p>
+                <footer class="blockquote-footer">Ioana, Cluj</footer>
+            </blockquote>
+        </div>
+        <div class="col-md-4 mb-4">
+            <blockquote class="blockquote">
+                <p>"Genele false sunt superbe, iar machiajul rezista toată ziua. Perfect pentru mine!"</p>
+                <footer class="blockquote-footer">Maria, Timișoara</footer>
+            </blockquote>
+        </div>
+    </div>
+
+
 </div>

@@ -1,0 +1,121 @@
+﻿@model ProiectMDS.Models.ProductCommentViewModel
+
+@{
+    var ratingSum = ViewBag.RatingSum;
+    var ratingCount = ViewBag.RatingCount;
+
+    decimal rating = 0;
+    if (ratingCount > 0)
+    {
+        rating = ratingSum / ratingCount;
+    }
+    var totalRating = decimal.Parse(rating.ToString("0.00"));
+}
+
+@if (TempData["message"] != null)
+{
+    <div class="alert @ViewBag.Alert p-3 rounded-3 text-center mb-5">
+        @ViewBag.Message
+    </div>
+}
+
+<br />
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-4">
+            <img src="@Model.Product.ImageUrl" class="img-fluid" alt="@Model.Product.Title" height="500" width="500" style="margin-top: 100px;" />
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">@Model.Product.Title</h3>
+                    <div class="card-text">@Html.Raw(Model.Product.Description)</div>
+                    @if ((ViewBag.AfisareButoane == true && Model.Product.UserId == ViewBag.UserCurent) || ViewBag.EsteAdmin == true)
+                    {
+                        <div class="d-flex flex-row justify-content-between">
+                            <a class="btn btn-success" asp-controller="Products" asp-action="Edit" asp-route-id="@Model.Product.Id">Editeaza produs</a>
+                            <form method="post" asp-controller="Products" asp-action="Delete" asp-route-id="@Model.Product.Id">
+                                <button class="btn btn-danger" type="submit">Sterge produs</button>
+                            </form>
+                        </div>
+                    }
+
+                    @if (@Model.Product.Stock > 0)
+                    {
+                        <div>In stoc(@Model.Product.Stock)</div>
+                        <input type="hidden" value="@Model.Product.Id" />
+                        <div class="d-flex justify-content-center">
+                            <a asp-controller="ShoppingCarts" asp-action="AddToCart" asp-route-id="@Model.Product.Id" class="btn btn-primary">Adauga in cos</a>
+                        </div>
+                    }
+                    else
+                    {
+                        <div>Indisponibil</div>
+                    }
+                </div>
+            </div>
+
+            <br />
+            <div>
+                <h3>Rating: @totalRating (@ratingCount)</h3>
+            </div>
+
+            @* Afisare comentarii impreuna cu butoanele de editare si stergere *@
+            <div class="container">
+                <div class="row">
+                    @foreach (var comm in Model.ListOfComments)
+                    {
+                        <div class="col-md-2"></div>
+                        <div class="col-md-8">
+                            <div>
+                                @for (var i = 1; i <= comm.Rating; i++)
+                                {
+                                    <span class="starGlowN"></span>
+                                }
+                                @for (var i = comm.Rating + 1; i <= 5; i++)
+                                {
+                                    <span class="starFadeN"></span>
+                                }
+                                <p>@comm.Content</p>
+                                <small>@comm.Date</small>
+                                <strong><i class="bi bi-person"></i>@comm.User.UserName</strong>
+                            </div>
+                            <br>
+                            @if (comm.UserId == ViewBag.UserCurent || ViewBag.EsteAdmin == true)
+                            {
+                                <div class="d-flex">
+                                    <div>
+                                        <a class="btn btn-outline-primary" asp-controller="Comments" asp-action="Edit" asp-route-id="@comm.Id">
+                                            <i class="bi bi-pencil-square"></i> Editeaza
+                                        </a>
+                                    </div>
+                                    <div>
+                                        <form method="post" asp-controller="Comments" asp-action="Delete" asp-route-id="@comm.Id">
+                                            <button class="btn btn-outline-danger" type="submit"><i class="bi bi-trash"></i>Sterge</button>
+                                        </form>
+                                    </div>
+                                </div>
+                            }
+                            <br />
+                        </div>
+                        <div class="col-md-2"></div>
+                    }
+                </div>
+            </div>
+            <partial name="_CommentBox" />
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function SCRate() {
+        for (var i = 1; i <= @totalRating; i++) {
+            $("#sRate" + i).attr('class', 'starGlowN');
+        }
+    }
+    $(function () {
+        SCRate();
+    });
+</script>

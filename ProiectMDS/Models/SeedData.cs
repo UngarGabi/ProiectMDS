@@ -9,9 +9,9 @@ namespace ProiectMDS.Models
     {
         public static void Initialize(IServiceProvider serviceProvider)
         {
-            using (var context = new AppDbContext(
+            using (var context = new ApplicationDbContext(
             serviceProvider.GetRequiredService
-            <DbContextOptions<AppDbContext>>()))
+            <DbContextOptions<ApplicationDbContext>>()))
             {
                 
                 if (context.Roles.Any())

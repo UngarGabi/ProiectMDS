@@ -8,12 +8,11 @@ using Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation;
 using ProiectMDS.Services;
 
 
-
 var builder = WebApplication.CreateBuilder(args);
 
 // Adăugăm DbContext înainte de Identity
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(connectionString));
 
 // Configurăm serviciile Identity
@@ -21,7 +20,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
 {
     options.SignIn.RequireConfirmedAccount = true;
 })
-.AddEntityFrameworkStores<AppDbContext>()
+.AddEntityFrameworkStores<ApplicationDbContext>()
 .AddDefaultTokenProviders();
 
 // Email configurare 

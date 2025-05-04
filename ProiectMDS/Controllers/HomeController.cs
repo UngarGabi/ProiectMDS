@@ -10,14 +10,14 @@ namespace ProiectMDS.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        private readonly AppDbContext db;
+        private readonly ApplicationDbContext db;
 
         private readonly UserManager<ApplicationUser> _userManager;
 
         private readonly RoleManager<IdentityRole> _roleManager;
 
         public HomeController(
-            AppDbContext context,
+            ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
             RoleManager<IdentityRole> roleManager,
             ILogger<HomeController> logger

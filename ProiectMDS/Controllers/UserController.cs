@@ -12,7 +12,7 @@ namespace ProiectMDS.Controllers
 
     public class UserController : Controller
     {
-        private readonly AppDbContext db;
+        private readonly ApplicationDbContext db;
 
         private readonly UserManager<ApplicationUser> _userManager;
 
@@ -20,7 +20,7 @@ namespace ProiectMDS.Controllers
 
 
         public UserController(
-           AppDbContext context,
+           ApplicationDbContext context,
            UserManager<ApplicationUser> userManager,
            RoleManager<IdentityRole> roleManager
            )
