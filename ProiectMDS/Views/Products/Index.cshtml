@@ -20,6 +20,14 @@
     ViewBag.Title = "Produse și Comentarii";
 }
 
+@* Optiuni de sortare *@
+<div class="mb-3">
+    <span class="container-sort">Sortare dupa: </span>
+    <a class="button-mb3" asp-action="Index" asp-route-sortOrder="price_asc" asp-route-search="@ViewBag.CurrentFilter">Pret Ascendent   </a>  
+    <a class="button-mb3" asp-action="Index" asp-route-sortOrder="price_desc" asp-route-search="@ViewBag.CurrentFilter">Pret Descendent   </a>   
+    <a class="button-mb3" asp-action="Index" asp-route-sortOrder="rating_asc" asp-route-search="@ViewBag.CurrentFilter">Rating Ascendent   </a>   
+    <a class="button-mb3" asp-action="Index" asp-route-sortOrder="rating_desc" asp-route-search="@ViewBag.CurrentFilter">Rating Descendent  </a>  
+</div>
 
 
 <div class="container">
@@ -38,4 +46,16 @@
             </div>
         }
     </div>
+</div>
+
+<div class="promo-code">
+    <h3>🎁 Cod Promoțional</h3>
+    <p>Folosește codul de mai jos pentru o reducere de <strong>10%</strong>!</p>
+
+    <div class="promo-code-box">
+        <p id="promo-id">REDUCERE10</p>
+        <button type="button" onclick="copyCode()">Salvează codul </button>
+    </div>
+
+    <p class="promo-note">Valabil până la 31.12.2025.</p>
 </div>

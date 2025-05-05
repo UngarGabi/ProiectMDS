@@ -1,5 +1,6 @@
 html {
   font-size: 14px;
+  
 }
 
 @media (min-width: 768px) {
@@ -19,4 +20,78 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+.mb-3 {
+    display: flex;
+    justify-content: flex-start;
+
+}
+
+.container-sort {
+    display: flex;
+    justify-content: space-evenly;
+    color: hotpink;
+}
+
+.button-mb3 {
+    color: hotpink;
+    text-decoration: none;
+    border-radius: 10px;
+}
+
+.button-mb3:hover {
+    color:lightpink;
+}
+
+.promo-code {
+    border: 2px dashed #eb59b6;
+    padding: 20px;
+    border-radius: 10px;
+    background-color: #f0f8ff;
+    max-width: 400px;
+    margin: 50px auto;
+    text-align: center;
+}
+
+.promo-panel h3 {
+    margin-top: 0;
+    color: #0056b3;
+}
+
+.promo-code-box {
+    margin-top: 15px;
+    background: #d7c4ce;
+    padding: 10px 15px;
+    border-radius: 5px;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid #007bff;
+}
+
+.promo-code-box span {
+    font-weight: bold;
+    color: #007bff;
+    font-size: 18px;
+}
+
+.promo-code-box button {
+    background-color: #f0028d;
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.promo-code-box button:hover {
+    background-color: #dd85b4;
+}
+
+.promo-note {
+    font-size: 13px;
+    color: #555;
+    margin-top: 10px;
 }

@@ -35,14 +35,41 @@ namespace ProiectMDS.Controllers
             _env = env;
         }
 
+
         //index 
-        public IActionResult Index()
+        public IActionResult Index(string sortOrder, string search)
         {
             
+          
+            // Setari pentru sortare
+            ViewBag.CurrentSort = sortOrder;
+            ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
+            ViewBag.PriceSortParm = sortOrder == "price_asc" ? "price_desc" : "price_asc";
+            ViewBag.RatingSortParm = sortOrder == "rating_asc" ? "rating_desc" : "rating_asc";
+
+            // Setarea cautarii
+            ViewBag.CurrentFilter = search;
+
+            // Preluare produse aprobate
             var products = db.Products.Include("Category")
                                       .Include("User")
-                                      .Where(p => p.IsApproved == true)
-                                      .ToList();
+                                      .Where(p => p.IsApproved == true);
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                List<int> productIds = db.Products.Where(
+                                         at => at.Title.Contains(search)
+                                         || at.Description.Contains(search)
+                                     ).Select(a => a.Id).ToList();
+
+                List<int> productIdsOfCommentsWithSearchString = db.Comments
+                                         .Where(c => c.Content.Contains(search))
+                                         .Select(c => (int)c.ProductId).ToList();
+
+                List<int> mergedIds = productIds.Union(productIdsOfCommentsWithSearchString).ToList();
+
+                products = products.Where(product => mergedIds.Contains(product.Id));
+            }
 
             // Calculare scoruri produse
             var productRatings = db.Comments
@@ -64,6 +91,26 @@ namespace ProiectMDS.Controllers
                 Rating = productRatings.ContainsKey(p.Id) ? productRatings[p.Id] : 0,
                 ListOfComments = db.Comments.Where(c => c.ProductId == p.Id).ToList()
             });
+
+            // Sortare dupa `sortOrder`
+            switch (sortOrder)
+            {
+                case "rating_desc":
+                    productCommentViewModels = productCommentViewModels.OrderByDescending(p => p.Rating);
+                    break;
+                case "rating_asc":
+                    productCommentViewModels = productCommentViewModels.OrderBy(p => p.Rating);
+                    break;
+                case "price_desc":
+                    productCommentViewModels = productCommentViewModels.OrderByDescending(p => p.Product.Price);
+                    break;
+                case "price_asc":
+                    productCommentViewModels = productCommentViewModels.OrderBy(p => p.Product.Price);
+                    break;
+                default:
+                    productCommentViewModels = productCommentViewModels.OrderBy(p => p.Title); // Ordine implicita
+                    break;
+            }
 
             return View(productCommentViewModels.ToList());
         }
