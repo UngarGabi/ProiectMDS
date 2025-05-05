@@ -41,18 +41,6 @@
                         </div>
                     }
 
-                    @if (@Model.Product.Stock > 0)
-                    {
-                        <div>In stoc(@Model.Product.Stock)</div>
-                        <input type="hidden" value="@Model.Product.Id" />
-                        <div class="d-flex justify-content-center">
-                            <a asp-controller="ShoppingCarts" asp-action="AddToCart" asp-route-id="@Model.Product.Id" class="btn btn-primary">Adauga in cos</a>
-                        </div>
-                    }
-                    else
-                    {
-                        <div>Indisponibil</div>
-                    }
                 </div>
             </div>
 

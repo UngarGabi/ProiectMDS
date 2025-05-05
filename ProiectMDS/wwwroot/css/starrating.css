@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300&family=Permanent+Marker&family=Roboto&display=swap');
+
+.body-content {
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.dl-horizontal dt {
+    white-space: normal;
+}
+input, select, textarea {
+    max-width: 200px;
+}
+
+.commentBox {
+    background-color: #efefef;
+    border-radius: 10px;
+    padding: 10px;
+}
+.starFade {
+    background-image: url('/images/whitestar.png');
+    min-width: 30px;
+    min-height: 30px;
+    display: inline-block;
+    cursor: pointer;
+}
+
+.starFadeN {
+    background-image: url('/images/whitestar.png');
+    min-width: 30px;
+    min-height: 30px;
+    display: inline-block;
+}
+
+.starGlow {
+    background-image: url('/images/yellowstar.jpg');
+    min-width: 30px;
+    min-height: 30px;
+    display: inline-block;
+    cursor: pointer;
+}
+.starGlowN {
+    background-image: url('/images/yellowstar.jpg');
+    min-width: 30px;
+    min-height: 30px;
+    display: inline-block;
+}

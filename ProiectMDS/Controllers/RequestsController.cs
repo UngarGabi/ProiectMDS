@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using ProiectMDS.Models;
 using ProiectMDS.Data;
 
-namespace ProiectDAW.Controllers
+namespace ProiectMDS.Controllers
 {
     [Authorize(Roles = "Admin")]
     public class RequestsController : Controller

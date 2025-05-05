@@ -35,12 +35,13 @@ namespace ProiectMDS.Controllers
             _env = env;
         }
 
-        //index nou
+        //index 
         public IActionResult Index()
         {
             
             var products = db.Products.Include("Category")
                                       .Include("User")
+                                      .Where(p => p.IsApproved == true)
                                       .ToList();
 
             // Calculare scoruri produse
@@ -130,7 +131,7 @@ namespace ProiectMDS.Controllers
         // Adaugarea unui comentariu asociat unui produs in baza de date
         // Toate rolurile pot adauga comentarii in baza de date
         [HttpPost]
-        //[Authorize(Roles = "User,Colaborator,Admin")]
+        [Authorize(Roles = "User,Colaborator,Admin")]
         public IActionResult Show([FromForm] Comment comment)
         {
             comment.Date = DateTime.Now;

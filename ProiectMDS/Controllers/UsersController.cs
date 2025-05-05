@@ -1,16 +1,18 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using ProiectMDS.Data;
 using ProiectMDS.Models;
+using System.Security.Claims;
 
 namespace ProiectMDS.Controllers
 {
-    //[Authorize(Roles = "Admin")]
 
-    public class UserController : Controller
+    [Authorize(Roles = "Admin")]
+    public class UsersController : Controller
     {
         private readonly ApplicationDbContext db;
 
@@ -18,12 +20,11 @@ namespace ProiectMDS.Controllers
 
         private readonly RoleManager<IdentityRole> _roleManager;
 
-
-        public UserController(
-           ApplicationDbContext context,
-           UserManager<ApplicationUser> userManager,
-           RoleManager<IdentityRole> roleManager
-           )
+        public UsersController(
+            ApplicationDbContext context,
+            UserManager<ApplicationUser> userManager,
+            RoleManager<IdentityRole> roleManager
+            )
         {
             db = context;
 
@@ -31,7 +32,6 @@ namespace ProiectMDS.Controllers
 
             _roleManager = roleManager;
         }
-
         public IActionResult Index()
         {
             var users = from user in db.Users
@@ -39,6 +39,7 @@ namespace ProiectMDS.Controllers
                         select user;
 
             ViewBag.UsersList = users;
+
             return View();
         }
 
@@ -106,12 +107,14 @@ namespace ProiectMDS.Controllers
             return RedirectToAction("Index");
         }
 
+
         [HttpPost]
         public IActionResult Delete(string id)
         {
             var user = db.Users
                          .Include("Products")
                          .Include("Comments")
+                         .Include("Bookmarks")
                          .Where(u => u.Id == id)
                          .First();
 
@@ -124,7 +127,6 @@ namespace ProiectMDS.Controllers
                 }
             }
 
-         
             // Delete user products
             if (user.Products.Count > 0)
             {

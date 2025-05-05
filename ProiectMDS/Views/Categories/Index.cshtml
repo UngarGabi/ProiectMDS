@@ -1,0 +1,40 @@
+﻿@{
+    ViewBag.Title = "Lista categorii";
+}
+
+<h2>@ViewBag.Title</h2>
+<br />
+
+@if (TempData.ContainsKey("message"))
+{
+    <h1>@ViewBag.message</h1>
+}
+
+<br />
+
+<div class="container">
+    <div class="d-flex flex-wrap justify-content-center">
+        @foreach (ProiectMDS.Models.Category category in ViewBag.Categories)
+        {
+            <div class="card m-2" style="width: 18rem;">
+                <div class="card-body">
+                    <div class="form-group">
+                        <label asp-for="@category.CategoryName" class="form-label">Denumire categorie</label>
+                        <div><i class="bi bi-globe"></i> @category.CategoryName</div>
+                    </div>
+                    <br />
+                    <a class="btn alert-success" asp-controller="Categories" asp-action="Show" asp-route-id="@category.Id">Afisare categorie</a>
+                    <a class="btn alert-success" asp-controller="Categories" asp-action="Edit" asp-route-id="@category.Id">Editare categorie</a>
+                    <br />
+                    <br />
+                </div>
+            </div>
+        }
+    </div>
+</div>
+<br />
+<div class="d-flex justify-content-center">
+    <a class="btn btn-success" asp-controller="Categories" asp-action="New">Adauga o noua categorie</a>
+</div>
+<br />
+
