@@ -20,6 +20,14 @@
     ViewBag.Title = "Produse și Comentarii";
 }
 
+@* Motorul de cautare nou *@
+<form method="GET" asp-action="Index">
+    <div class="input-group mb-3">
+        <input type="text" class="form-control" placeholder="Cauta produse sau descriere..." name="search" value="@ViewBag.CurrentFilter">
+        <button class="btn btn-outline-success" type="submit">Cauta</button>
+    </div>
+</form>
+
 @* Optiuni de sortare *@
 <div class="mb-3">
     <span class="container-sort">Sortare dupa: </span>
@@ -58,4 +66,29 @@
     </div>
 
     <p class="promo-note">Valabil până la 31.12.2025.</p>
+</div>
+
+@* Afisarea paginata a articolelor *@
+
+<div class="pagination-container">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item">
+                <a class="page-link" href="@ViewBag.PaginationBaseUrl=1" aria-label="Previous">
+                    <span aria-hidden="true">&laquo;</span>
+                </a>
+            </li>
+
+            @for (int i = 1; i <= ViewBag.lastPage; i++)
+            {
+                <li class="page-item"> <a class="page-link" href="@ViewBag.PaginationBaseUrl=@i">@(i)</a> </li>
+            }
+
+            <li class="page-item">
+                <a class="page-link" href="@ViewBag.PaginationBaseUrl=@(ViewBag.lastPage)" aria-label="Next">
+                    <span aria-hidden="true">&raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
 </div>

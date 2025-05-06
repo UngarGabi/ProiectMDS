@@ -39,8 +39,6 @@ namespace ProiectMDS.Controllers
         //index 
         public IActionResult Index(string sortOrder, string search)
         {
-            
-          
             // Setari pentru sortare
             ViewBag.CurrentSort = sortOrder;
             ViewBag.TitleSortParm = String.IsNullOrEmpty(sortOrder) ? "title_desc" : "";
@@ -92,7 +90,7 @@ namespace ProiectMDS.Controllers
                 ListOfComments = db.Comments.Where(c => c.ProductId == p.Id).ToList()
             });
 
-            // Sortare dupa `sortOrder`
+            // Sortare dupa sortOrder
             switch (sortOrder)
             {
                 case "rating_desc":
@@ -111,7 +109,25 @@ namespace ProiectMDS.Controllers
                     productCommentViewModels = productCommentViewModels.OrderBy(p => p.Title); // Ordine implicita
                     break;
             }
+            // Paginare
+            int _perPage = 3;
+            int totalItems = productCommentViewModels.Count();
+            var currentPage = Convert.ToInt32(HttpContext.Request.Query["page"]);
+            var offset = (currentPage > 0) ? (currentPage - 1) * _perPage : 0;
+            var paginatedProducts = productCommentViewModels.Skip(offset).Take(_perPage);
 
+            ViewBag.lastPage = Math.Ceiling((float)totalItems / (float)_perPage);
+            ViewBag.Products = paginatedProducts.Select(p => p.Product).ToList();
+            ViewBag.Ratings = paginatedProducts.ToDictionary(p => p.Product.Id, p => p.Rating);
+
+            if (search != "")
+            {
+                ViewBag.PaginationBaseUrl = $"/Products/Index/?search={search}&sortOrder={sortOrder}&page";
+            }
+            else
+            {
+                ViewBag.PaginationBaseUrl = $"/Products/Index/?sortOrder={sortOrder}&page";
+            }
             return View(productCommentViewModels.ToList());
         }
 
