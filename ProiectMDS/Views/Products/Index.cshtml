@@ -49,6 +49,7 @@
                     <div class="d-flex flex-wrap justify-content-center">
                         <a class="btn btn-success" asp-controller="Products" asp-action="Show" asp-route-id="@product.ProductId">Afisare produs</a>
                         <input type="hidden" value="@product.ProductId" />
+                        <a asp-controller="ShoppingCarts" asp-action="AddToCart" asp-route-id="@product.ProductId" class="btn btn-primary">Adauga in cos</a>
                     </div>
                 </div>
             </div>
@@ -72,7 +73,7 @@
 
 <div class="pagination-container">
     <nav aria-label="Page navigation example">
-        <ul class="pagination">
+        <ul class="pagination justify-content-center">
             <li class="page-item">
                 <a class="page-link" href="@ViewBag.PaginationBaseUrl=1" aria-label="Previous">
                     <span aria-hidden="true">&laquo;</span>

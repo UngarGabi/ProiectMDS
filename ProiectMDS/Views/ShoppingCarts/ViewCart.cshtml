@@ -1,0 +1,65 @@
+﻿@model ShoppingCartViewModel
+<h1>Cosul tau de cumparaturi</h1>
+<h2 class="text-success">@ViewBag.CartMessage</h2>
+@if (ViewBag.CartError != null)
+{
+    <div class="alert alert-danger">
+        <p>@ViewBag.CartError</p>
+    </div>
+}
+
+@if (ViewBag.CartWarning != null)
+{
+    <div class="alert alert-warning">
+        <p>@ViewBag.CartWarning</p>
+    </div>
+}
+
+@if (ViewBag.CartMessage != null)
+{
+    <div class="alert alert-success">
+        <p>@ViewBag.CartMessage</p>
+    </div>
+}
+@if (Model.CartItems.Count == 0)
+{
+    <h2>Cosul tau este gol</h2>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nume</th>
+                <th>Cantitate</th>
+                <th>Pret</th>
+                <th>Subtotal</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.CartItems)
+            {
+                <tr>
+                    <td>@item.Product.Title</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Product.Price</td>
+                    <td>@((item.Product.Price * item.Quantity).ToString("C"))</td>
+                    <input type="hidden" value="@item.Product.Id" />
+                    <td>
+                        <a asp-action="AddFromCart" asp-controller="ShoppingCarts" asp-route-id="@item.Product.Id" class="btn btn-success">Adauga</a>
+                    </td>
+                    <input type = "hidden" value="@item.Product.Id" />
+                    <td>
+                        <a asp-action="RemoveFromCart" asp-controller="ShoppingCarts" asp-route-id="@item.Product.Id" class="btn btn-danger">Sterge</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+    <div class="text-right">
+        <h3>Total: @Model.TotalPrice?.ToString("C")</h3>
+        <a asp-action="PurchaseItems" asp-controller="ShoppingCarts" class="btn btn-primary">Checkout</a>
+    </div>
+}
+
