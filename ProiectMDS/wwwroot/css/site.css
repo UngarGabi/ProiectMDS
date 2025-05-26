@@ -24,13 +24,12 @@ body {
 
 .mb-3 {
     display: flex;
-    justify-content: flex-start;
-
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
 }
 
 .container-sort {
-    display: flex;
-    justify-content: space-evenly;
     color: hotpink;
 }
 
@@ -38,10 +37,18 @@ body {
     color: hotpink;
     text-decoration: none;
     border-radius: 10px;
+    position: relative;
+    padding: 0 10px;
 }
 
 .button-mb3:hover {
     color:lightpink;
+}
+
+.button-mb3:not(:last-child)::after {
+    content: "|";
+    color: hotpink;
+    margin-left: 10px;
 }
 
 .promo-code {
@@ -94,4 +101,14 @@ body {
     font-size: 13px;
     color: #555;
     margin-top: 10px;
+}
+
+.sort-options a {
+    margin: 0 10px;
+    text-decoration: none;
+}
+
+.separator {
+    color: #666;
+    margin: 0 5px;
 }

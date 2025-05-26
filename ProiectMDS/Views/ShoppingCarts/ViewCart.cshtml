@@ -1,0 +1,89 @@
+﻿@model ShoppingCartViewModel
+<h1>Cosul tau de cumparaturi</h1>
+ @if (ViewBag.CartError != null)
+{
+    <div class="alert alert-danger">
+        <p>@ViewBag.CartError</p>
+    </div>
+}
+
+@if (ViewBag.CartWarning != null)
+{
+    <div class="alert alert-warning">
+        <p>@ViewBag.CartWarning</p>
+    </div>
+}
+
+@if (ViewBag.CartMessage != null)
+{
+    <div class="alert alert-success">
+        <p>@ViewBag.CartMessage</p>
+    </div>
+}
+@if (Model.CartItems.Count == 0)
+{
+    <h2>Cosul tau este gol</h2>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Nume</th>
+                <th>Cantitate</th>
+                <th>Pret</th>
+                <th>Subtotal</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.CartItems)
+            {
+                <tr>
+                    <td>@item.Product.Title</td>
+                    <td>@item.Quantity</td>
+                    <td>@item.Product.Price</td>
+                    <td>@((item.Product.Price * item.Quantity).ToString("C"))</td>
+                    <input type="hidden" value="@item.Product.Id" />
+                    <td>
+                        <a asp-action="AddFromCart" asp-controller="ShoppingCarts" asp-route-id="@item.Product.Id" class="btn btn-success">Adauga</a>
+                    </td>
+                    <input type = "hidden" value="@item.Product.Id" />
+                    <td>
+                        <a asp-action="RemoveFromCart" asp-controller="ShoppingCarts" asp-route-id="@item.Product.Id" class="btn btn-danger">Sterge</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <form asp-action="ApplyPromoCode" method="post" class="mt-4">
+        <div class="form-group">
+            <label for="promoCode">Cod promotional:</label>
+            <input type="text" name="promoCode" id="promoCode" class="form-control" placeholder="Introdu codul" />
+        </div>
+        <button type="submit" class="btn btn-warning mt-2">Aplica codul</button>
+    </form>
+    @if (!string.IsNullOrEmpty(Model.PromoCode))
+    {
+        <form asp-action="RemovePromoCode" method="post" class="mt-2">
+            <p>Cod aplicat: <strong>@Model.PromoCode</strong></p>
+            <button type="submit" class="btn btn-sm btn-outline-danger">Elimină codul</button>
+        </form>
+    }
+
+    <div class="text-right mt-4">
+        @if (Model.DiscountValue > 0)
+        {
+            <h4>Total initial: @Model.TotalPrice?.ToString("C")</h4>
+            <h4>Reducere: @Model.DiscountValue.ToString("C")</h4>
+            <h3>Total final: @Model.FinalPrice?.ToString("C")</h3>
+        }
+        else
+        {
+            <h3>Total: @Model.TotalPrice?.ToString("C")</h3>
+        }
+        <a asp-action="PurchaseItems" asp-controller="ShoppingCarts" class="btn btn-primary">Checkout</a>
+    </div>
+}
+
