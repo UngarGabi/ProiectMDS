@@ -1,7 +1,6 @@
 ﻿@model ShoppingCartViewModel
 <h1>Cosul tau de cumparaturi</h1>
-<h2 class="text-success">@ViewBag.CartMessage</h2>
-@if (ViewBag.CartError != null)
+ @if (ViewBag.CartError != null)
 {
     <div class="alert alert-danger">
         <p>@ViewBag.CartError</p>
@@ -57,8 +56,33 @@ else
             }
         </tbody>
     </table>
-    <div class="text-right">
-        <h3>Total: @Model.TotalPrice?.ToString("C")</h3>
+
+    <form asp-action="ApplyPromoCode" method="post" class="mt-4">
+        <div class="form-group">
+            <label for="promoCode">Cod promotional:</label>
+            <input type="text" name="promoCode" id="promoCode" class="form-control" placeholder="Introdu codul" />
+        </div>
+        <button type="submit" class="btn btn-warning mt-2">Aplica codul</button>
+    </form>
+    @if (!string.IsNullOrEmpty(Model.PromoCode))
+    {
+        <form asp-action="RemovePromoCode" method="post" class="mt-2">
+            <p>Cod aplicat: <strong>@Model.PromoCode</strong></p>
+            <button type="submit" class="btn btn-sm btn-outline-danger">Elimină codul</button>
+        </form>
+    }
+
+    <div class="text-right mt-4">
+        @if (Model.DiscountValue > 0)
+        {
+            <h4>Total initial: @Model.TotalPrice?.ToString("C")</h4>
+            <h4>Reducere: @Model.DiscountValue.ToString("C")</h4>
+            <h3>Total final: @Model.FinalPrice?.ToString("C")</h3>
+        }
+        else
+        {
+            <h3>Total: @Model.TotalPrice?.ToString("C")</h3>
+        }
         <a asp-action="PurchaseItems" asp-controller="ShoppingCarts" class="btn btn-primary">Checkout</a>
     </div>
 }

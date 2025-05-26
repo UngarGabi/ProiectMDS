@@ -11,6 +11,12 @@ namespace ProiectMDS.Controllers
     {
         private readonly ApplicationDbContext _context;
         private List<ShoppingCartItem> _cartItems;
+        private readonly Dictionary<string, decimal> _validPromoCodes = new()
+        {
+            { "REDUCERE10", 0.10m }, // 10% reducere
+            { "STUDENT25", 0.25m }   // 25% reducere
+        };
+
 
         public ShoppingCartsController(ApplicationDbContext context)
         {
@@ -67,11 +73,32 @@ namespace ProiectMDS.Controllers
         public IActionResult ViewCart()
         {
             var cartItems = HttpContext.Session.Get<List<ShoppingCartItem>>("Cart") ?? new List<ShoppingCartItem>();
+            var total = cartItems.Sum(item => item.Product.Price * item.Quantity);
+            var promoCode = HttpContext.Session.Get<string>("PromoCode");
+            decimal discount = 0;
+
+            if (!string.IsNullOrEmpty(promoCode))
+            {
+                var validCodes = new Dictionary<string, decimal>
+        {
+            { "REDUCERE10", 0.10m },
+            { "STUDENT25", 0.25m }
+        };
+
+                if (validCodes.TryGetValue(promoCode.ToUpper(), out var rate))
+                {
+                    discount = total * rate;
+                }
+            }
+
             var cartViewModel = new ShoppingCartViewModel
             {
                 CartItems = cartItems,
-                TotalPrice = cartItems.Sum(item => item.Product.Price * item.Quantity)
+                TotalPrice = total, 
+                DiscountValue = discount,
+                PromoCode = promoCode
             };
+            
             ViewBag.CartMessage = TempData["CartMessage"];
             ViewBag.CartError = TempData["CartError"];
             ViewBag.CartWarning = TempData["CartWarning"];
@@ -139,5 +166,48 @@ namespace ProiectMDS.Controllers
             return RedirectToAction("Index", "Home");
 
         }
+        [HttpPost]
+        [HttpPost]
+        public IActionResult ApplyPromoCode(string promoCode)
+        {
+            if (string.IsNullOrEmpty(promoCode))
+            {
+                TempData["CartWarning"] = "Te rugam sa introduci un cod promotional.";
+                return RedirectToAction("ViewCart");
+            }
+
+            // Nu permite aplicarea unui nou cod daca deja exista unul activ
+            if (HttpContext.Session.Get<string>("PromoCode") != null)
+            {
+                TempData["CartWarning"] = "Ai deja un cod promotional activ.";
+                return RedirectToAction("ViewCart");
+            }
+
+            // Validare cod
+            var validCodes = new Dictionary<string, decimal>
+            {
+                { "REDUCERE10", 0.10m },
+                { "STUDENT25", 0.25m }
+            };
+
+            if (!validCodes.TryGetValue(promoCode.ToUpper(), out var discountRate))
+            {
+                TempData["CartWarning"] = "Cod promotional invalid.";
+                return RedirectToAction("ViewCart");
+            }
+            // Salveaza în sesiune
+            HttpContext.Session.Set("PromoCode", promoCode.ToUpper());
+
+            TempData["CartMessage"] = $"Codul '{promoCode}' a fost aplicat.";
+            return RedirectToAction("ViewCart");
+        }
+        public IActionResult RemovePromoCode()
+        {
+            HttpContext.Session.Remove("PromoCode");
+            HttpContext.Session.Remove("DiscountValue");
+            TempData["CartMessage"] = "Codul promotional a fost eliminat.";
+            return RedirectToAction("ViewCart");
+        }
+
     }
 }
