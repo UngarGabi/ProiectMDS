@@ -127,6 +127,8 @@ namespace ProiectMDS.Controllers
                 }
             }
 
+
+
             // Delete user products
             if (user.Products.Count > 0)
             {
@@ -162,5 +164,7 @@ namespace ProiectMDS.Controllers
             }
             return selectList;
         }
+
+
     }
 }
