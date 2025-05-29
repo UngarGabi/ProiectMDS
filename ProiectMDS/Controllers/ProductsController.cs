@@ -128,7 +128,8 @@ namespace ProiectMDS.Controllers
             {
                 ViewBag.PaginationBaseUrl = $"/Products/Index/?sortOrder={sortOrder}&page";
             }
-            return View(productCommentViewModels.ToList());
+            //return View(productCommentViewModels.ToList());
+            return View(paginatedProducts.ToList());
         }
 
 
