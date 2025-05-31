@@ -46,8 +46,20 @@
                         <div>In stoc(@Model.Product.Stock)</div>
                         <input type="hidden" value="@Model.Product.Id" />
                         <div class="d-flex justify-content-center">
-                            <a asp-controller="ShoppingCarts" asp-action="AddToCart" asp-route-id="@Model.Product.Id" class="btn btn-primary">Adauga in cos</a>
+                            <a asp-controller="ShoppingCarts" asp-action="AddToCart" asp-route-id="@Model.Product.Id" class="btn btn-primary">
+                                <button class="button-cart">
+                                    Adauga in cos
+                                    <svg class="cartIcon" viewBox="0 0 576 512"><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"></path></svg>
+                                </button>
+                            </a>
                         </div>
+                        <form asp-controller="Favorite" asp-action="AddToFavorites" asp-route-id="@Model.Product.Id" method="post" style="display:inline;">
+                            <!-- From Uiverse.io by LilaRest -->
+                            <button button type="submit" class="btn-fav">
+                                <svg height="32" width="32" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0H24V24H0z" fill="none"></path><path d="M16.5 3C19.538 3 22 5.5 22 9c0 7-7.5 11-10 12.5C9.5 20 2 16 2 9c0-3.5 2.5-6 5.5-6C9.36 3 11 4 12 5c1-1 2.64-2 4.5-2z"></path></svg>
+                            </button>
+                        </form>
+
                     }
                     else
                     {

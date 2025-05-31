@@ -17,6 +17,7 @@ namespace ProiectMDS.Data
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Request> Requests { get; set; }
         public DbSet<Purchase> Purchases { get; set; }
+        public DbSet<FavoriteItem> FavoriteItems { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             // definirea relatiei many-to-many dintre Product si Bookmark

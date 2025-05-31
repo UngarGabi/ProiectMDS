@@ -1,0 +1,20 @@
+﻿@model FavoriteViewModel
+<h1> Favoritele tale</h1>
+@if (Model.FavItems != null && Model.FavItems.Any())
+{
+    <ul>
+        @foreach (var item in Model.FavItems)
+        {
+            <li>
+                <strong>@item.Product.Title</strong> - @item.Product.Price RON
+                <form asp-action="RemoveFromFavorites" asp-route-id="@item.Product.Id" method="post">
+                    <button type="submit">Șterge</button>
+                </form>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>Nu ai produse în lista de favorite.</p>
+}

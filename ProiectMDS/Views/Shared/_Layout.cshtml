@@ -8,6 +8,8 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ProiectMDS.styles.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
 
     <!-- se include summernote css -->
     <link href="https://cdn.jsdelivr.net/npm/summernote@0.9.0/dist/summernote-lite.min.css" rel="stylesheet">
@@ -42,9 +44,9 @@
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Users" asp-action="Index">Afisare utilizatori</a>
                             </li>
-                            <li class="nav-item"> 
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Requests" asp-action="Index">Cereri</a> 
-                            </li> 
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Requests" asp-action="Index">Cereri</a>
+                            </li>
                         }
 
                         @if (User.IsInRole("Colaborator"))
@@ -72,6 +74,13 @@
                             <ul class="navbar-nav">
                                 <li class="nav-item">
                                     <a class="nav-link" asp-area="" asp-controller="ShoppingCarts" asp-action="ViewCart">Cos</a>
+                                </li>
+                            </ul>
+                        </div>
+                        <div class="d-flex">
+                            <ul class="navbar-nav">
+                                <li class="nav-item">
+                                    <a class="nav-link" asp-area="" asp-controller="Favorite" asp-action="ViewFavorite">Favorite</a>
                                 </li>
                             </ul>
                         </div>

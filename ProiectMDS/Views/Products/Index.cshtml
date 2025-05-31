@@ -22,39 +22,87 @@
 
 @* Motorul de cautare nou *@
 <form method="GET" asp-action="Index">
-    <div class="input-group mb-3">
-        <input type="text" class="form-control" placeholder="Cauta produse sau descriere..." name="search" value="@ViewBag.CurrentFilter">
-        <button class="btn btn-outline-success" type="submit">Cauta</button>
+    <div class="container-products">
+        <!-- From Uiverse.io by satyamchaudharydev -->
+        <form class="search-bar">
+            <label for="search">
+                <input required="" autocomplete="off" placeholder="Cauta produse sau descriere..." id="search" type="text">
+                <div class="icon">
+                    <svg stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="swap-on">
+                        <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" stroke-linejoin="round" stroke-linecap="round"></path>
+                    </svg>
+                    <svg stroke-width="2" stroke="currentColor" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" class="swap-off">
+                        <path d="M10 19l-7-7m0 0l7-7m-7 7h18" stroke-linejoin="round" stroke-linecap="round"></path>
+                    </svg>
+                </div>
+                <button type="reset" class="close-btn">
+                    <svg viewBox="0 0 20 20" class="h-5 w-5" xmlns="http://www.w3.org/2000/svg">
+                        <path clip-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" fill-rule="evenodd"></path>
+                    </svg>
+                </button>
+            </label>
+        </form>
+        <button class="btn-cart" type="submit">
+            <!-- From Uiverse.io by vnuny -->
+            <div class="container">
+                <input checked="" class="checkbox" type="checkbox">
+                <div class="mainbox">
+                    <div class="iconContainer">
+                        <svg viewBox="0 0 512 512" height="1em" xmlns="http://www.w3.org/2000/svg" class="search_icon"><path d="M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z"></path></svg>
+                    </div>
+                    <input class="search_input" placeholder="search" type="text">
+                </div>
+            </div>
+        </button>
+
     </div>
 </form>
 
 @* Optiuni de sortare *@
-<div class="mb-3">
+<div class="sort-options">
     <span class="container-sort">Sortare dupa:  </span>
-    <a class="button-mb3" asp-action="Index" asp-route-sortOrder="price_asc" asp-route-search="@ViewBag.CurrentFilter">Pret Ascendent   </a>  
-    <a class="button-mb3" asp-action="Index" asp-route-sortOrder="price_desc" asp-route-search="@ViewBag.CurrentFilter">Pret Descendent   </a>   
-    <a class="button-mb3" asp-action="Index" asp-route-sortOrder="rating_asc" asp-route-search="@ViewBag.CurrentFilter">Rating Ascendent   </a>   
-    <a class="button-mb3" asp-action="Index" asp-route-sortOrder="rating_desc" asp-route-search="@ViewBag.CurrentFilter">Rating Descendent  </a>  
+    <a class="button-mb3" asp-action="Index" asp-route-sortOrder="price_asc" asp-route-search="@ViewBag.CurrentFilter">Pret Ascendent   </a>
+    <a class="button-mb3" asp-action="Index" asp-route-sortOrder="price_desc" asp-route-search="@ViewBag.CurrentFilter">Pret Descendent   </a>
+    <a class="button-mb3" asp-action="Index" asp-route-sortOrder="rating_asc" asp-route-search="@ViewBag.CurrentFilter">Rating Ascendent   </a>
+    <a class="button-mb3" asp-action="Index" asp-route-sortOrder="rating_desc" asp-route-search="@ViewBag.CurrentFilter">Rating Descendent  </a>
 </div>
 
 
-<div class="container">
-    <div class="d-flex flex-wrap justify-content-center">
-        @foreach (var product in Model)
-        {
-            <div class="card m-2" style="width: 25rem;">
-                <div class="card-body">
+<div class="product-grid">
+    @* <div class="d-flex flex-wrap justify-content-center"> *@
+    @foreach (var product in Model)
+    {
+        <div class="card m-2" style="width: 25rem;">
+            <div class="card-body">
 
-                    <partial name="ProductInfo" model="product"></partial>
-                    <div class="d-flex flex-wrap justify-content-center">
-                        <a class="btn btn-success" asp-controller="Products" asp-action="Show" asp-route-id="@product.ProductId">Afisare produs</a>
-                        <input type="hidden" value="@product.ProductId" />
-                        <a asp-controller="ShoppingCarts" asp-action="AddToCart" asp-route-id="@product.ProductId" class="btn btn-primary">Adauga in cos</a>
-                    </div>
+                <partial name="ProductInfo" model="product"></partial>
+                <div class="d flex flex-wrap justify-around justify-content-center gap-2">
+                    <a class="btn btn-success" asp-controller="Products" asp-action="Show" asp-route-id="@product.ProductId">
+                        <button class="button-cart">
+                            Afisare produs
+                            <svg class="cartIcon" viewBox="0 0 576 512"><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"></path></svg>
+                        </button>
+                    </a>
+                    <input type="hidden" value="@product.ProductId" />
+                    <a asp-controller="ShoppingCarts" asp-action="AddToCart" asp-route-id="@product.ProductId" class="btn btn-primary">
+                        <!-- From Uiverse.io by vinodjangid07 -->
+                        <button class="button-cart">
+                            Adauga in cos
+                            <svg class="cartIcon" viewBox="0 0 576 512"><path d="M0 24C0 10.7 10.7 0 24 0H69.5c22 0 41.5 12.8 50.6 32h411c26.3 0 45.5 25 38.6 50.4l-41 152.3c-8.5 31.4-37 53.3-69.5 53.3H170.7l5.4 28.5c2.2 11.3 12.1 19.5 23.6 19.5H488c13.3 0 24 10.7 24 24s-10.7 24-24 24H199.7c-34.6 0-64.3-24.6-70.7-58.5L77.4 54.5c-.7-3.8-4-6.5-7.9-6.5H24C10.7 48 0 37.3 0 24zM128 464a48 48 0 1 1 96 0 48 48 0 1 1 -96 0zm336-48a48 48 0 1 1 0 96 48 48 0 1 1 0-96z"></path></svg>
+                        </button>
+                    </a>
+                    <form asp-controller="Favorite" asp-action="AddToFavorites" asp-route-id="@product.ProductId" method="post" style="display:inline;">
+                        <!-- From Uiverse.io by LilaRest -->
+                        <button button type="submit" class="btn-fav">
+                            <svg height="32" width="32" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M0 0H24V24H0z" fill="none"></path><path d="M16.5 3C19.538 3 22 5.5 22 9c0 7-7.5 11-10 12.5C9.5 20 2 16 2 9c0-3.5 2.5-6 5.5-6C9.36 3 11 4 12 5c1-1 2.64-2 4.5-2z"></path></svg>
+                        </button>
+
+                    </form>
                 </div>
             </div>
-        }
-    </div>
+        </div>
+    }
+    @* </div> *@
 </div>
 
 <div class="promo-code">
