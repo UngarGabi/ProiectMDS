@@ -7,14 +7,12 @@ namespace ProiectMDS.Models
     public class ApplicationUser:IdentityUser
     {
         
-    //PASUL 6: USERI SI ROLURI
+    //USERI SI ROLURI
     //un user poate posta mai multe comentarii
     public virtual ICollection<Comment>? Comments { get; set; }
 
         //un user poate posta mai multe produse
         public virtual ICollection<Product>? Products { get; set; }
-
-        // public virtual ICollection<ShoppingCart>? Baskets { get; set; }
 
         // atribute suplimentare adaugate pentru user
         public string? FirstName { get; set; }

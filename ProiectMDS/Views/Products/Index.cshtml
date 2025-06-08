@@ -1,4 +1,10 @@
 ﻿@using System.Text.RegularExpressions
+@if (TempData["message"] != null)
+{
+    <div class="alert alert-success">
+        <p>@TempData["message"]</p>
+    </div>
+}
 <br />
 <h2 class="text-center">Afisare produse</h2>
 

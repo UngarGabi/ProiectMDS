@@ -93,7 +93,6 @@ namespace ProiectMDS.Controllers
         [HttpPost]
         public ActionResult Delete(int id)
         {
-            //Category category = db.Categories.Find(id);
             Category category = db.Categories.Include("Products")
                                              .Include("Products.Comments")
                                              .Where(c => c.Id == id)

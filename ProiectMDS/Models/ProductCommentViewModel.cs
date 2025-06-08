@@ -9,6 +9,5 @@
         public decimal? Rating { get; set; }
 
         public virtual Product? Product { get; set; }
-        //public decimal? Score { get; set; }
     }
 }

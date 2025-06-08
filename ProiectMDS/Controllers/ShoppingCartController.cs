@@ -47,7 +47,6 @@ namespace ProiectMDS.Controllers
                 else
                 {
                     existingCartItem.Quantity++;
-                    //TempData["CartMessage"] = $"{productToAdd.Title} a fost adaugat in cos!";
                 }
             }
             else
@@ -63,7 +62,6 @@ namespace ProiectMDS.Controllers
                         Product = productToAdd,
                         Quantity = 1
                     });
-                    //TempData["CartMessage"] = $"{productToAdd.Title} a fost adaugat in cos!";
                 }
             }
             HttpContext.Session.Set("Cart", cartItems);
@@ -163,7 +161,7 @@ namespace ProiectMDS.Controllers
             _context.SaveChanges();
             HttpContext.Session.Set("Cart", new List<ShoppingCartItem>());
             TempData["message"] = "Produsele au fost achizitionate cu succes!";
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Products");
 
         }
         [HttpPost]
