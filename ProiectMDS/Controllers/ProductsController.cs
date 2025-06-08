@@ -128,7 +128,6 @@ namespace ProiectMDS.Controllers
             {
                 ViewBag.PaginationBaseUrl = $"/Products/Index/?sortOrder={sortOrder}&page";
             }
-            //return View(productCommentViewModels.ToList());
             return View(paginatedProducts.ToList());
         }
 
@@ -139,7 +138,6 @@ namespace ProiectMDS.Controllers
         // Se afiseaza un singur produs in functie de id-ul sau impreuna cu categoria din care face parte
         // In plus, sunt preluate si toate comentariile asociate unui produs
         // Se afiseaza si userul care a postat produsul respectiv
-        //[Authorize(Roles = "User,Colaborator,Admin")]
         public IActionResult Show(int id)
         {
             Product product = db.Products.Include("Category").Include("Comments").Include("User")
@@ -222,7 +220,6 @@ namespace ProiectMDS.Controllers
 
         // Se afiseaza formularul in care se vor completa datele unui produs impreuna cu selectarea categoriei din care face parte
         // Doar utilizatorii cu rolul de colaborator si admin pot adauga produse in platforma
-        // [HttpGet] implicit
         [Authorize(Roles = "Colaborator,Admin")]
         public IActionResult New()
         {
@@ -257,16 +254,6 @@ namespace ProiectMDS.Controllers
                     var productFromDb = db.Products.Find(ProductId);
                     if (files.Count != 0)
                     {
-                        /* var ImagePath = @"images\products";
-                         var Extension = Path.GetExtension(files[0].FileName);
-                         var RelativeImagePath = ImagePath + ProductId + Extension;
-                         var AbsImagePath = Path.Combine(wwwRootPath, RelativeImagePath);
-                         using (var fileStream = new FileStream(AbsImagePath, FileMode.Create))
-                         {
-                             files[0].CopyTo(fileStream);
-                         }
-                         productFromDb.ImageUrl = RelativeImagePath;
-                         db.SaveChanges();*/
                         var ImagePath = @"images/products/";
                         var Extension = Path.GetExtension(files[0].FileName);
                         var RelativeImagePath = Path.Combine(ImagePath, $"{ProductId}{Extension}");
@@ -283,7 +270,7 @@ namespace ProiectMDS.Controllers
                             files[0].CopyTo(fileStream);
                         }
 
-                        productFromDb.ImageUrl = "/" + RelativeImagePath.Replace("\\", "/"); // Normalizează pentru URL
+                        productFromDb.ImageUrl = "/" + RelativeImagePath.Replace("\\", "/"); // Normalizeaza pentru URL
                         db.SaveChanges();
 
                     }
@@ -296,46 +283,18 @@ namespace ProiectMDS.Controllers
                     product.IsApproved = false;
                     db.Products.Add(product);
                     db.SaveChanges();
-                    /*
                     var ProductId = product.Id;
                     string wwwRootPath = _env.WebRootPath;
                     var files = HttpContext.Request.Form.Files;
                     var productFromDb = db.Products.Find(ProductId);
                     if (files.Count != 0)
                     {
-                        var ImagePath = @"images\";
-                        var Extension = Path.GetExtension(files[0].FileName);
-                        var RelativeImagePath = ImagePath + ProductId + Extension;
-                        var AbsImagePath = Path.Combine(wwwRootPath, RelativeImagePath);
-                        using (var fileStream = new FileStream(AbsImagePath, FileMode.Create))
-                        {
-                            files[0].CopyTo(fileStream);
-                        }
-                        productFromDb.ImageUrl = RelativeImagePath;
-                        db.SaveChanges();
-                    }*/
-                    var ProductId = product.Id;
-                    string wwwRootPath = _env.WebRootPath;
-                    var files = HttpContext.Request.Form.Files;
-                    var productFromDb = db.Products.Find(ProductId);
-                    if (files.Count != 0)
-                    {
-                        /*var ImagePath = @"images\products";
-                        var Extension = Path.GetExtension(files[0].FileName);
-                        var RelativeImagePath = ImagePath + ProductId + Extension;
-                        var AbsImagePath = Path.Combine(wwwRootPath, RelativeImagePath);
-                        using (var fileStream = new FileStream(AbsImagePath, FileMode.Create))
-                        {
-                            files[0].CopyTo(fileStream);
-                        }
-                        productFromDb.ImageUrl = RelativeImagePath;
-                        db.SaveChanges();*/
                         var ImagePath = @"images/products/";
                         var Extension = Path.GetExtension(files[0].FileName);
                         var RelativeImagePath = Path.Combine(ImagePath, $"{ProductId}{Extension}");
                         var AbsImagePath = Path.Combine(wwwRootPath, RelativeImagePath);
 
-                        // Creează directorul dacă nu există
+                        // Creeaza directorul daca nu exista
                         if (!Directory.Exists(Path.Combine(wwwRootPath, ImagePath)))
                         {
                             Directory.CreateDirectory(Path.Combine(wwwRootPath, ImagePath));
@@ -346,7 +305,7 @@ namespace ProiectMDS.Controllers
                             files[0].CopyTo(fileStream);
                         }
 
-                        productFromDb.ImageUrl = "/" + RelativeImagePath.Replace("\\", "/"); // Normalizează pentru URL
+                        productFromDb.ImageUrl = "/" + RelativeImagePath.Replace("\\", "/"); // Normalizeaza pentru URL
                         db.SaveChanges();
 
                     }
@@ -544,18 +503,7 @@ namespace ProiectMDS.Controllers
                     Text = category.CategoryName
                 });
             }
-            /* Sau se poate implementa astfel: 
-             * 
-            foreach (var category in categories)
-            {
-                var listItem = new SelectListItem();
-                listItem.Value = category.Id.ToString();
-                listItem.Text = category.CategoryName;
-
-                selectList.Add(listItem);
-             }*/
-
-
+            
             // returnam lista de categorii
             return selectList;
         }

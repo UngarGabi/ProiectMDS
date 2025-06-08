@@ -32,6 +32,7 @@ namespace ProiectMDS.Controllers
             {
                 db.Comments.Remove(comm);
                 db.SaveChanges();
+                TempData["message"] = "Comentariu sters.";
                 return Redirect("/Products/Show/" + comm.ProductId);
             }
             else
@@ -44,7 +45,6 @@ namespace ProiectMDS.Controllers
 
         // Se editeaza un comentariu existent
         // Editarea unui comentariu asociat unui produs
-        // [HttpGet] se executa implicit
         // Se poate edita un comentariu doar de catre utilizatorul care a postat comentariul respectiv
         // Adminii pot edita orice comentariu, chiar daca nu a fost postat de ei
 
@@ -77,6 +77,7 @@ namespace ProiectMDS.Controllers
                     comm.Content = requestComment.Content;
                     comm.Rating = requestComment.Rating;
                     db.SaveChanges();
+                    TempData["message"] = "Comentariu editat.";
                     return Redirect("/Products/Show/" + comm.ProductId);
                 }
                 else
@@ -113,6 +114,7 @@ namespace ProiectMDS.Controllers
             };
             db.Comments.Add(comm);
             db.SaveChanges();
+            TempData["message"] = "Comentariu adaugat.";
             return Redirect("/Products/Show/" + productId);
 
         }

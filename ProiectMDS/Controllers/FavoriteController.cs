@@ -22,13 +22,13 @@ namespace ProiectMDS.Controllers
         {
             return View();
         }
-
+        
         public IActionResult AddToFavorites(int id)
         {
             var productToAdd = _context.Products.Find(id);
             var favorites = HttpContext.Session.Get<List<FavoriteItem>>("Favorites") ?? new List<FavoriteItem>();
 
-            if (productToAdd == null)
+            if (productToAdd == null || productToAdd.Stock <= 0)
             {
                 TempData["FavError"] = $"Produsul {productToAdd?.Title} nu mai este disponibil!";
                 return RedirectToAction("ViewFavorite");
